@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>امتحان اللغة الإنجليزية الوظيفية للتكنولوجيا - اختبار الوحدة</title>
+    <title>امتحان اللغة الإنجليزية الوظيفية للتكنولوجيا</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
          :root {
@@ -166,6 +166,59 @@
             border: 1px solid var(--neon-pink);
             font-size: 0.9rem;
         }
+        /* حاوية المربع الخاص بالقطعة وأسئلتها */
+        
+        .passage-section-card {
+            background: #0f0f1a;
+            border: 2px solid var(--neon-cyan);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 35px;
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
+        }
+        
+        .passage-box {
+            background: #151525;
+            border-right: 4px solid var(--neon-pink);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+            line-height: 1.9;
+            font-family: Arial, sans-serif;
+            font-size: 1.05rem;
+            color: #e0e0ff;
+            direction: ltr;
+            text-align: left;
+        }
+        
+        .passage-title {
+            color: var(--gold);
+            font-family: 'Tajawal', sans-serif;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            direction: rtl;
+            text-align: right;
+            border-bottom: 1px dashed rgba(255, 215, 0, 0.3);
+            padding-bottom: 8px;
+        }
+        
+        .underlined-target {
+            color: var(--neon-pink);
+            font-weight: bold;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+            padding: 0 4px;
+        }
+        
+        .section-title {
+            color: var(--gold);
+            border-right: 4px solid var(--gold);
+            padding-right: 12px;
+            margin: 30px 0 15px 0;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
         
         .q-box {
             background: #18182a;
@@ -175,7 +228,6 @@
             margin-bottom: 20px;
             transition: 0.3s;
             text-align: left;
-            /* للحفاظ على تنسيق أسئلة الإنجليزي */
             direction: ltr;
         }
         
@@ -402,7 +454,7 @@
 
         <div id="welcome-screen">
             <h1>امتحان اللغة الإنجليزية الوظيفية للتكنولوجيا</h1>
-            <p class="sub-title">Functional English for IT - Unit Exam (المجموع الكلي: 30 علامة)</p>
+            <p class="sub-title">Functional English for IT - Unit Exam (المجموع الكلي: 42 علامة)</p>
 
             <div class="input-group">
                 <label for="student-name">الرجاء إدخال الاسم الثلاثي للطالبة:</label>
@@ -415,11 +467,25 @@
         <div id="exam-screen">
             <div class="exam-header">
                 <div class="student-info-tag">اسم الطالبة: <span id="display-name"></span></div>
-                <div class="exam-info-tag">العلامة الكلية: 30 علامة</div>
+                <div class="exam-info-tag">العلامة الكلية: 42 علامة</div>
             </div>
 
             <form id="quiz-form">
-                <div id="mcq-container"></div>
+                <!-- المربع الخاص المستقل بالنص وأسئلته -->
+                <div class="passage-section-card">
+                    <div class="passage-title">📖 القسم الأول: النص القرائي وأسئلة الاستيعاب (Reading Passage & Questions)</div>
+                    <div class="passage-box">
+                        "For my job, I am usually on a computer. I design whole websites or just small parts of websites, like menus. I work for different customers. I talk to my customers a lot because I need to understand what they want from their website. I have a lot of
+                        online meetings with customers from other countries. Before I start a new project, we have a meeting. We discuss the customer's ideas, and I tell them if they work. Later, we have another meeting. I show them my progress. Sometimes
+                        the customer asks for changes. After I finish the website, we have a final meeting. I love my job because I always learn a lot about the businesses. For example, I make websites for several gyms, so I understand a lot about how
+                        <span class="underlined-target">they</span> work – but I don't go to the gym much. I like doing exercise outside."
+                    </div>
+                    <div id="passage-mcq-container"></div>
+                </div>
+
+                <!-- المربع المخصص لباقي أسئلة الامتحان العام -->
+                <div class="section-title">القسم الثاني: أسئلة القواعد والمفردات والوظائف اللغوية العامة (General Questions)</div>
+                <div id="general-mcq-container"></div>
 
                 <div style="text-align: center; margin-top: 35px;">
                     <button type="button" class="btn-neon" onclick="submitExam()">تسليم الإجابات 📤</button>
@@ -447,7 +513,7 @@
                     <tr>
                         <th>#</th>
                         <th>اسم الطالبة</th>
-                        <th>العلامة النهائية (من 30)</th>
+                        <th>العلامة النهائية (من 42)</th>
                         <th>النسبة المئوية</th>
                         <th>التاريخ والوقت</th>
                     </tr>
@@ -467,8 +533,48 @@
     </div>
 
     <script>
-        const rawQuestions = [
-            // Section 1: Vocabulary & Collocations (1 mark each)
+        // 1. مصفوفة الأسئلة المخصصة والخاصة بمربع القطعة فقط (6 أسئلة × 2 علامة = 12 علامة)
+        const passageQuestions = [{
+            id: 'qp1',
+            points: 2,
+            text: "What is Lucia's main job?",
+            options: ["An IT trainer", "A web designer", "A hardware engineer", "A systems analyst"],
+            correctText: "A web designer"
+        }, {
+            id: 'qp2',
+            points: 2,
+            text: "Why does Lucia talk to her customers a lot?",
+            options: ["Because she wants to sell them computer hardware", "Because she needs to understand what they want from their website", "Because she wants to go to the gym with them", "Because she wants to learn how to write Java code"],
+            correctText: "Because she needs to understand what they want from their website"
+        }, {
+            id: 'qp3',
+            points: 2,
+            text: "What does Lucia show her customers in the second meeting?",
+            options: ["The final website", "Her CV and degree", "Her progress", "A new router"],
+            correctText: "Her progress"
+        }, {
+            id: 'qp4',
+            points: 2,
+            text: "Why does Lucia love her job?",
+            options: ["Because she always learns a lot about different businesses", "Because she goes to the gym every single day", "Because she never has online meetings", "Because she works completely offline"],
+            correctText: "Because she always learns a lot about different businesses"
+        }, {
+            id: 'qp5',
+            points: 2,
+            text: "Where does Lucia prefer to do exercise?",
+            options: ["Inside the gym", "At the office", "Outside", "In online meetings"],
+            correctText: "Outside"
+        }, {
+            id: 'qp6',
+            points: 2,
+            text: "What does the underlined pronoun (they) refer to in the text?",
+            options: ["customers", "gyms", "websites", "online meetings"],
+            correctText: "gyms"
+        }];
+
+        // 2. مصفوفة الأسئلة العامة الخارجيّة (15 سؤالاً = 30 علامة)
+        const generalQuestions = [
+            // Section 1: Vocabulary & Collocations (10 أسئلة × 1 علامة = 10 علامات)
             {
                 id: 'q1',
                 points: 1,
@@ -531,7 +637,7 @@
                 correctText: "helpdesk"
             },
 
-            // Section 2: Grammar - Present Simple (2 marks each)
+            // Section 2: Grammar - Present Simple (6 أسئلة × 2 علامة = 12 علامة)
             {
                 id: 'q11',
                 points: 2,
@@ -570,20 +676,8 @@
                 correctText: "doesn't write"
             },
 
-            // Section 3: Reading Comprehension & Functions (2 marks each)
+            // Section 3: Functions & Profiles (4 أسئلة × 2 علامة = 8 علامات)
             {
-                id: 'q17',
-                points: 2,
-                text: "Based on Lucia's blog post, why does she love her job?",
-                options: ["Because she goes to the gym a lot.", "Because she works only on menus.", "Because she never meets customers.", "Because she always learns a lot about different businesses."],
-                correctText: "Because she always learns a lot about different businesses."
-            }, {
-                id: 'q18',
-                points: 2,
-                text: "In Lucia's second meeting with a customer, what does she show them?",
-                options: ["The final website.", "Her progress.", "The price list.", "Her CV."],
-                correctText: "Her progress."
-            }, {
                 id: 'q19',
                 points: 2,
                 text: "In a professional online profile, which heading contains information like 'Degree in Computer Science'?",
@@ -598,7 +692,7 @@
             }
         ];
 
-        // خلط العناصر عشوائياً
+        // خلط عناصر القائمة عشوائياً
         function shuffle(array) {
             let currentIndex = array.length,
                 randomIndex;
@@ -614,12 +708,14 @@
         let processedQuestions = [];
 
         function renderExam() {
-            let shuffledQList = shuffle(rawQuestions);
             processedQuestions = [];
+            let globalQuestionNumber = 1;
 
-            let mcqHTML = "";
+            // 1. خلط وعرض أسئلة القطعة فقط داخل مربع النص المستقل
+            let shuffledPassageQ = shuffle(passageQuestions);
+            let passageHTML = "";
 
-            shuffledQList.forEach((q, idx) => {
+            shuffledPassageQ.forEach((q) => {
                         let shuffledOptions = shuffle(q.options);
                         let correctIdx = shuffledOptions.indexOf(q.correctText);
 
@@ -629,9 +725,9 @@
                             correctIndex: correctIdx
                         });
 
-                        mcqHTML += `
+                        passageHTML += `
                     <div class="q-box" id="card-${q.id}">
-                        <div class="q-title">${idx + 1}. ${q.text} <span style="color: var(--gold); font-size: 0.85rem; font-family: 'Tajawal';">(${q.points} ${q.points === 1 ? 'علامة' : 'علامتان'})</span></div>
+                        <div class="q-title">${globalQuestionNumber++}. ${q.text} <span style="color: var(--gold); font-size: 0.85rem; font-family: 'Tajawal';">(${q.points} علامات)</span></div>
                         <div class="options-list">
                             ${shuffledOptions.map((opt, oIdx) => `
                                 <label class="option-item">
@@ -643,8 +739,37 @@
                     </div>
                 `;
             });
+            document.getElementById('passage-mcq-container').innerHTML = passageHTML;
 
-            document.getElementById('mcq-container').innerHTML = mcqHTML;
+            // 2. خلط وعرض باقي الأسئلة العامة في القسم الثاني المستقل
+            let shuffledGeneralQ = shuffle(generalQuestions);
+            let generalHTML = "";
+
+            shuffledGeneralQ.forEach((q) => {
+                let shuffledOptions = shuffle(q.options);
+                let correctIdx = shuffledOptions.indexOf(q.correctText);
+
+                processedQuestions.push({
+                    id: q.id,
+                    points: q.points,
+                    correctIndex: correctIdx
+                });
+
+                generalHTML += `
+                    <div class="q-box" id="card-${q.id}">
+                        <div class="q-title">${globalQuestionNumber++}. ${q.text} <span style="color: var(--gold); font-size: 0.85rem; font-family: 'Tajawal';">(${q.points} ${q.points === 1 ? 'علامة' : 'علامتان'})</span></div>
+                        <div class="options-list">
+                            ${shuffledOptions.map((opt, oIdx) => `
+                                <label class="option-item">
+                                    <input type="radio" name="${q.id}" value="${oIdx}">
+                                    ${opt}
+                                </label>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            });
+            document.getElementById('general-mcq-container').innerHTML = generalHTML;
         }
 
         let studentName = "";
@@ -692,7 +817,7 @@
                 }
             });
 
-            let percentage = ((finalScore / 30) * 100).toFixed(1);
+            let percentage = ((finalScore / 42) * 100).toFixed(1);
 
             const record = {
                 name: studentName,
@@ -736,7 +861,7 @@
                     <tr>
                         <td>${i + 1}</td>
                         <td><b>${r.name}</b></td>
-                        <td style="color: var(--neon-cyan); font-weight: bold;">${r.totalScore} / 30</td>
+                        <td style="color: var(--neon-cyan); font-weight: bold;">${r.totalScore} / 42</td>
                         <td style="color: var(--neon-green); font-weight: bold;">${r.percentage}</td>
                         <td>${r.date}</td>
                     </tr>
